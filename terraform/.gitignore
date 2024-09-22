@@ -33,5 +33,5 @@ override.tf.json
 .terraformrc
 terraform.rc
 
-# Ignore .terraform.lock.hcl as it can cause conflicts in collaborative environments
+# Ignore .terraform.lock.hcl files
 .terraform.lock.hcl
