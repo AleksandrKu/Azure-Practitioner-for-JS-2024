@@ -13,6 +13,16 @@ export default defineConfig({
     },
   },
   plugins: [react()],
+  build: {
+    chunkSizeWarningLimit: 1000, // Increase the limit to 1000 KiB
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+        },
+      },
+    },
+  },
   test: {
     globals: true,
     environment: "jsdom",
