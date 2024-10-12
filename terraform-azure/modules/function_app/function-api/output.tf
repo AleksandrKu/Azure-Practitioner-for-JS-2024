@@ -22,3 +22,7 @@ output "name" {
 output "id" {
   value = azurerm_windows_function_app.products_service.id
 }
+
+output "function_app_default_hostname" {
+  value = azurerm_windows_function_app.products_service.default_hostname
+}

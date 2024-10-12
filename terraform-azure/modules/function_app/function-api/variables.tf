@@ -33,49 +33,20 @@ variable "application_insights_connection_string" {
 variable "name" {
   type = string
 }
+
+variable "storage_account_connection_string" {
+  type        = string
+}
+
+variable "storage_share_name" {
+  type        = string
+}
+
+variable "app_config_connection_string" {
+  type        = string
+}
+
 # variable "slot_name" {
-#   type = string
-# }
-# variable "apim_subnet_name" {
-
-# }
-
-
-# variable "always_on" {
-
-# }
-# variable "storage_connectionstring" {
-
-# }
-# variable "elastic_instance_minimum" {
-# }
-
-# variable "app_config_connection" {}
-
-# variable "app_config_endpoint_url" {}
-
-# variable "appins_con_string" {
-#   type      = string
-#   sensitive = true
-# }
-
-# variable "env_name" {
-#   type = string
-# }
-
-# variable "service_bus" {
-#   type = map(string)
-# }
-
-# variable "subnet_id_list" {
-#   type = list(string)
-# }
-
-# variable "cidr_list" {
-#   type = list(string)
-# }
-
-# variable "log_id" {
 #   type = string
 # }
 

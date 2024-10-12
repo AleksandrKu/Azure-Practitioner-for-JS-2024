@@ -46,6 +46,9 @@ module "function_app" {
   env_prefix                             = var.env_prefix
   region_prefix                          = var.region_prefix
   denominator                            = var.denominator
+  storage_account_connection_string      = module.storage_account.primary_connection_string
+  storage_share_name                     = "staging"
+  app_config_connection_string           = var.app_config_connection_string
 }
 
 # Deployment Slot
@@ -70,10 +73,10 @@ resource "azurerm_windows_function_app_slot" "staging" {
     # remote_debugging_version = "VS2019"
     
     # # Disable "Subscription required"
-    # cors {
-    #   allowed_origins     = ["*"]
-    #   support_credentials = false
-    # }
+    cors {
+      allowed_origins     = ["*"]
+      support_credentials = false
+    }
   }
 
   app_settings = {
@@ -82,5 +85,11 @@ resource "azurerm_windows_function_app_slot" "staging" {
     FUNCTIONS_WORKER_RUNTIME                 = "node"
     WEBSITE_NODE_DEFAULT_VERSION             = "~18"
     WEBSITE_RUN_FROM_PACKAGE                 = "1"
+    AZURE_APP_CONFIG_CONNECTION_STRING       = var.app_config_connection_string
+  }
+    lifecycle {
+    ignore_changes = [
+      app_settings,
+    ]
   }
 }

@@ -10,6 +10,9 @@ resource "azurerm_windows_function_app" "products_service" {
 
   functions_extension_version = "~4"
   builtin_logging_enabled     = false
+  # sticky_settings {
+  #   app_setting_names = ["AZURE_APP_CONFIG_CONNECTION_STRING"]
+  # }
 
   site_config {
     always_on = false
@@ -30,10 +33,11 @@ resource "azurerm_windows_function_app" "products_service" {
     }
   }
 
-  # app_settings = {
-  #   WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = azurerm_storage_account.products_service_fa.primary_connection_string
-  #   WEBSITE_CONTENTSHARE                     = azurerm_storage_share.products_service_fa.name
-  # }
+  app_settings = {
+    WEBSITE_CONTENTAZUREFILECONNECTIONSTRING = var.storage_account_connection_string
+    WEBSITE_CONTENTSHARE                     = var.storage_share_name
+    AZURE_APP_CONFIG_CONNECTION_STRING       = var.app_config_connection_string
+  }
 
   # The app settings changes cause downtime on the Function App. e.g. with Azure Function App Slots
   # Therefore it is better to ignore those changes and manage app settings separately off the Terraform.

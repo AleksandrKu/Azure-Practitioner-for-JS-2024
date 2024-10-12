@@ -17,3 +17,8 @@ variable "region_prefix" {
 variable "denominator" {
   type = string
 }
+
+variable "app_config_connection_string" {
+  type        = string
+}
+
