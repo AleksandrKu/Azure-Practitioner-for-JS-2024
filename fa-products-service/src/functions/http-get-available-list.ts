@@ -9,8 +9,12 @@ const client = new AppConfigurationClient(connection_string);
 
 export async function httpGetAvailableList(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
     // Retrieve a configuration key
-    const configs = await client.getConfigurationSetting({ key: 'DATA_FROM_APP_CONFIG' });
-    context.log(configs);
+    try {
+        const configs = await client.getConfigurationSetting({ key: 'DATA_FROM_APP_CONFIG' });
+        context.log(configs);
+    } catch (error) {
+        context.error(error);
+    }
     context.log(`Http function processed request for url "${request.url}"`);
     return { body: JSON.stringify(availableProducts) };
 };
