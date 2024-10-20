@@ -26,11 +26,11 @@ resource "azurerm_cosmosdb_sql_database" "products_app" {
 }
 
 resource "azurerm_cosmosdb_sql_container" "products" {
-  name                = "products"
-  resource_group_name = var.resource_group_name
-  account_name        = azurerm_cosmosdb_account.cosmosdb_account.name
-  database_name       = azurerm_cosmosdb_sql_database.products_app.name
-  partition_key_path  = "/id"
+  name                  = "products"
+  resource_group_name   = var.resource_group_name
+  account_name          = azurerm_cosmosdb_account.cosmosdb_account.name
+  database_name         = azurerm_cosmosdb_sql_database.products_app.name
+  partition_key_path    = "/id"
   partition_key_version = 1
 
   # Cosmos DB supports TTL for the records
@@ -39,6 +39,23 @@ resource "azurerm_cosmosdb_sql_container" "products" {
   # This indexing policy excludes all paths from indexing
   # It can significantly reduce the cost of write operations
   # but may impact query performance for non-id based queries
+  indexing_policy {
+    excluded_path {
+      path = "/*"
+    }
+  }
+}
+
+resource "azurerm_cosmosdb_sql_container" "stocks" {
+  name                  = "stocks"
+  resource_group_name   = var.resource_group_name
+  account_name          = azurerm_cosmosdb_account.cosmosdb_account.name
+  database_name         = azurerm_cosmosdb_sql_database.products_app.name
+  partition_key_path    = "/product_id"
+  partition_key_version = 1
+
+  default_ttl = -1
+
   indexing_policy {
     excluded_path {
       path = "/*"
