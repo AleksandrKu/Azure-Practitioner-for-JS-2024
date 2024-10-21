@@ -52,6 +52,15 @@ resource "azurerm_api_management_api_policy" "api_policy" {
 </policies>
 XML
 }
+resource "azurerm_api_management_api_operation" "get_admin_products" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Get Products"
+  method              = "GET"
+  operation_id        = "get-admin-products"
+  resource_group_name = var.resource_group_name
+  url_template        = "/admin/products"
+}
 
 resource "azurerm_api_management_api_operation" "get_products" {
   api_management_name = var.api_management_name
@@ -60,5 +69,88 @@ resource "azurerm_api_management_api_operation" "get_products" {
   method              = "GET"
   operation_id        = "get-products"
   resource_group_name = var.resource_group_name
+  url_template        = "/products"
+}
+
+resource "azurerm_api_management_api_operation" "get_available_products" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Get Available Products"
+  method              = "GET"
+  operation_id        = "get-available-products"
+  resource_group_name = var.resource_group_name
   url_template        = "/product/available"
+}
+
+resource "azurerm_api_management_api_operation" "get_product_by_id" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Get Product By Id"
+  method              = "GET"
+  operation_id        = "get-product-by-id"
+  resource_group_name = var.resource_group_name
+  url_template        = "/products/{productId}"
+  description         = "Get a product by its ID"
+
+  template_parameter {
+    name     = "productId"
+    required = true
+    type     = "string"
+  }
+
+  response {
+    status_code = 200
+  }
+}
+
+resource "azurerm_api_management_api_operation" "create_product" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Create Product"
+  method              = "POST"
+  operation_id        = "create-product"
+  resource_group_name = var.resource_group_name
+  url_template        = "/product"
+}
+
+resource "azurerm_api_management_api_operation" "update_product" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Update Product"
+  method              = "PUT"
+  operation_id        = "update-product"
+  resource_group_name = var.resource_group_name
+  url_template        = "/products/{productId}"
+  description         = "Update a product"
+
+  template_parameter {
+    name     = "productId"
+    required = true
+    type     = "string"
+  }
+
+  response {
+    status_code = 200
+  }
+}
+
+resource "azurerm_api_management_api_operation" "delete_product" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Delete Product"
+  method              = "DELETE"
+  operation_id        = "delete-product"
+  resource_group_name = var.resource_group_name
+  url_template        = "/products/{productId}"
+  description         = "Delete a product"
+
+  template_parameter {
+    name     = "productId"
+    required = true
+    type     = "string"
+  }
+
+  response {
+    status_code = 204
+  }
 }
