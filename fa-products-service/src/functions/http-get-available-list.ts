@@ -14,7 +14,7 @@ export async function httpGetAvailableList(request: HttpRequest, context: Invoca
     }
 };
 
-app.http('GetAvailableList', {
+app.http('getAvailableList', {
     methods: ['GET'],
     authLevel: 'anonymous',
     route: 'product/available',
