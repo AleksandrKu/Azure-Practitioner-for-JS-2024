@@ -72,6 +72,16 @@ resource "azurerm_api_management_api_operation" "get_products" {
   url_template        = "/products"
 }
 
+resource "azurerm_api_management_api_operation" "get_products_total" {
+  api_management_name = var.api_management_name
+  api_name            = azurerm_api_management_api.products_api.name
+  display_name        = "Get Products total"
+  method              = "GET"
+  operation_id        = "get-products-total"
+  resource_group_name = var.resource_group_name
+  url_template        = "/products/total"
+}
+
 resource "azurerm_api_management_api_operation" "get_available_products" {
   api_management_name = var.api_management_name
   api_name            = azurerm_api_management_api.products_api.name
@@ -89,7 +99,7 @@ resource "azurerm_api_management_api_operation" "get_product_by_id" {
   method              = "GET"
   operation_id        = "get-product-by-id"
   resource_group_name = var.resource_group_name
-  url_template        = "/products/{productId}"
+  url_template        = "/product/{productId}"
   description         = "Get a product by its ID"
 
   template_parameter {
@@ -120,7 +130,7 @@ resource "azurerm_api_management_api_operation" "update_product" {
   method              = "PUT"
   operation_id        = "update-product"
   resource_group_name = var.resource_group_name
-  url_template        = "/products/{productId}"
+  url_template        = "/product/{productId}"
   description         = "Update a product"
 
   template_parameter {
@@ -141,7 +151,7 @@ resource "azurerm_api_management_api_operation" "delete_product" {
   method              = "DELETE"
   operation_id        = "delete-product"
   resource_group_name = var.resource_group_name
-  url_template        = "/products/{productId}"
+  url_template        = "/product/{productId}"
   description         = "Delete a product"
 
   template_parameter {
