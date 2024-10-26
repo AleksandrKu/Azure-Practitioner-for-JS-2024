@@ -1,22 +1,21 @@
 import { app, HttpRequest, HttpResponseInit, InvocationContext } from "@azure/functions";
-
-import { availableProducts } from "./products";
-import { AppConfigurationClient } from '@azure/app-configuration';
-const connection_string = process.env.AZURE_APP_CONFIG_CONNECTION_STRING;
-
-const client = new AppConfigurationClient(connection_string);
-
+import { getAllAvailableProducts } from "../database";
+import { Product } from "./types";
 
 export async function httpGetAvailableList(request: HttpRequest, context: InvocationContext): Promise<HttpResponseInit> {
-    // Retrieve a configuration key
-    const configs = await client.getConfigurationSetting({ key: 'DATA_FROM_APP_CONFIG' });
-    context.log(configs);
     context.log(`Http function processed request for url "${request.url}"`);
-    return { body: JSON.stringify(availableProducts) };
+    try {
+        const availableProducts: Product[] = await getAllAvailableProducts();
+
+        return { body: JSON.stringify(availableProducts) };
+    } catch (error) {
+        context.error("Error fetching available products:", error);
+        return { status: 500, body: "Internal Server Error" };
+    }
 };
 
-app.http('GetAvailableList', {
-    methods: ['GET', 'POST'],
+app.http('getAvailableList', {
+    methods: ['GET'],
     authLevel: 'anonymous',
     route: 'product/available',
     handler: httpGetAvailableList
