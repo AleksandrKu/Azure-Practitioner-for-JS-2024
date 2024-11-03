@@ -44,7 +44,8 @@ resource "azurerm_windows_function_app" "products_service" {
   lifecycle {
     ignore_changes = [
       app_settings,
-      site_config["application_stack"], // workaround for a bug when azure just "kills" your app
+      identity,
+      site_config["application_stack"],
       tags["hidden-link: /app-insights-instrumentation-key"],
       tags["hidden-link: /app-insights-resource-id"],
       tags["hidden-link: /app-insights-conn-string"]

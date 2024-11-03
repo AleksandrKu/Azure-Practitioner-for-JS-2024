@@ -1,0 +1,26 @@
+{
+  "name": "import-service",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/src/functions/*.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "clean": "npx rimraf dist",
+    "prestart": "npm run clean && npm run build",
+    "start": "func start",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@azure/storage-blob": "^12.17.0",
+    "csv-parse": "^5.5.3",
+    "rimraf": "^5.0.10",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^18.x",
+    "azure-functions-core-tools": "^4.x",
+    "typescript": "^5.6.3"
+  }
+}
