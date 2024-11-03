@@ -124,4 +124,3 @@ module "storage_account_import" {
   location             = var.location
   resource_group_name  = module.product_service_rg.name
 }
-
