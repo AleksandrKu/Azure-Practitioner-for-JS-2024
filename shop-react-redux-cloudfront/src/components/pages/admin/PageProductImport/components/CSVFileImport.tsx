@@ -1,6 +1,7 @@
 import React from "react";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+import axios from "axios"; 
 
 type CSVFileImportProps = {
   url: string;
@@ -25,22 +26,39 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
   const uploadFile = async () => {
     console.log("uploadFile to", url);
 
+    const urlforGetSASUrl =
+      "https://fa-import-service-dev-ne-001.azurewebsites.net/api/import";
     // Get the presigned URL
-    // const response = await axios({
-    //   method: "GET",
-    //   url,
-    //   params: {
-    //     name: encodeURIComponent(file.name),
-    //   },
-    // });
-    // console.log("File to upload: ", file.name);
-    // console.log("Uploading to: ", response.data);
-    // const result = await fetch(response.data, {
-    //   method: "PUT",
-    //   body: file,
-    // });
-    // console.log("Result: ", result);
-    // setFile("");
+    console.log("uploadFile to urlforGetSASUrl", urlforGetSASUrl);
+    const response = await axios({
+      method: "GET", 
+      url: urlforGetSASUrl,
+      params: {
+        name: encodeURIComponent("products-service-blob"),
+      },
+    });
+    console.log("File to upload: ", "products-service-blob");
+    console.log("Uploading to url: ", response.data.sasUrl);
+    
+    const config = {
+      method: 'put',
+      maxBodyLength: Infinity,
+      url: response.data.sasUrl,
+      headers: {
+        'x-ms-blob-type': 'BlockBlob',
+        'Content-Type': 'application/octet-stream'
+      },
+      data: file
+    };
+
+    try {
+      const result = await axios.request(config);
+      console.log("Upload successful:", JSON.stringify(result.data));
+    } catch (error) {
+      console.error("Upload failed:", error);
+    }
+    
+    setFile(undefined);
   };
   return (
     <Box>
@@ -52,7 +70,7 @@ export default function CSVFileImport({ url, title }: CSVFileImportProps) {
       ) : (
         <div>
           <button onClick={removeFile}>Remove file</button>
-          <button onClick={uploadFile}>Upload file</button>
+          <button onClick={uploadFile}>Upload file!</button>
         </div>
       )}
     </Box>

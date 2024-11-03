@@ -87,7 +87,8 @@ export async function httpGetImportProductsFiles(request: HttpRequest, context: 
                 sasUrl: `${blobClient.url}?${sasToken}`
             }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
             }
         };
     } catch (error) {
