@@ -87,9 +87,40 @@ resource "azurerm_windows_function_app_slot" "staging" {
     WEBSITE_RUN_FROM_PACKAGE                 = "1"
     AZURE_APP_CONFIG_CONNECTION_STRING       = var.app_config_connection_string
   }
-    lifecycle {
+  lifecycle {
     ignore_changes = [
       app_settings,
+      tags,
+      identity,
+      site_config["application_stack"],
+      tags["hidden-link: /app-insights-instrumentation-key"],
+      tags["hidden-link: /app-insights-resource-id"],
+      tags["hidden-link: /app-insights-conn-string"]
     ]
   }
+}
+
+# Function App for Import Service
+module "function_app_import" {
+  source                                 = "./modules/function_app/import-service"
+  name                                   = "fa-import-service-${var.env_prefix}-${var.region_prefix}-${var.denominator}"
+  resource_group_name                    = module.product_service_rg.name
+  location                               = var.location
+  service_plan_id                        = module.app_service_plan.asp_id
+  storage_account_name                   = module.storage_account_import.storage_account_name
+  storage_account_access_key             = module.storage_account_import.primary_access_key
+  application_insights_key               = module.app_insights.instrumentation_key
+  application_insights_connection_string = module.app_insights.connection_string
+  storage_account_connection_string      = module.storage_account_import.primary_connection_string
+  storage_share_name                     = "import-service-staging"
+  app_config_connection_string           = var.app_config_connection_string
+}
+
+# Storage Account for Import Service
+module "storage_account_import" {
+  source               = "./modules/storage_account_blob"
+  storage_account_name = "stgimport${var.env_prefix}${var.region_prefix}${var.denominator}"
+  env_prefix           = var.env_prefix
+  location             = var.location
+  resource_group_name  = module.product_service_rg.name
 }
