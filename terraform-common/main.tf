@@ -49,6 +49,13 @@ module "cosmos_db" {
   location            = module.resource_group.location
 }
 
+module "service_bus" {
+  source              = "./modules/service_bus"
+  name                = "service-bus-products-service-sand-ne-001"
+  resource_group_name = module.resource_group.name
+  location            = module.resource_group.location
+}
+
 output "app_config_endpoint" {
   value = module.app_configuration.endpoint
 }
