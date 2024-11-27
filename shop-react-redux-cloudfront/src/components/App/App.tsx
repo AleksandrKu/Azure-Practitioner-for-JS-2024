@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import { Chatbot } from "~/components/Chatbot/Chatbot";
 import MainLayout from "~/components/MainLayout/MainLayout";
 import PageProductForm from "~/components/pages/PageProductForm/PageProductForm";
 import PageOrders from "~/components/pages/PageOrders/PageOrders";
@@ -28,6 +29,7 @@ function App() {
           element={<Typography variant="h1">Not found</Typography>}
         />
       </Routes>
+      <Chatbot />
     </MainLayout>
   );
 }
