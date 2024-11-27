@@ -9,5 +9,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "skipLibCheck": true // This can help ignore type checking for declaration files
-  }
+  },
+  "include": ["src/**/*", "src/tests/**/*"],
+  "exclude": ["node_modules", "dist"]
 }
