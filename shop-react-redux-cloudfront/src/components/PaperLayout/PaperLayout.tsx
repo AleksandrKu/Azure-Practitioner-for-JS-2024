@@ -2,6 +2,7 @@ import React from "react";
 import Paper from "@mui/material/Paper";
 import { useTheme } from "@mui/material";
 import Box from "@mui/system/Box";
+import { Chatbot } from "~/components/Chatbot/Chatbot";
 
 const PaperLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const theme = useTheme();
@@ -28,6 +29,7 @@ const PaperLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       >
         {children}
       </Paper>
+      <Chatbot />
     </Box>
   );
 };

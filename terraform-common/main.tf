@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "=3.0.0"
+      version = " >=3.75.0"
     }
   }
 
@@ -10,6 +10,7 @@ terraform {
 }
 
 provider "azurerm" {
+  skip_provider_registration = true
   features {}
 }
 
@@ -58,4 +59,15 @@ module "service_bus" {
 
 output "app_config_endpoint" {
   value = module.app_configuration.endpoint
+}
+
+module "chatbot_acr" {
+  source                = "./modules/chatbot_acr"
+  unique_resource_id_prefix = "chatbotne001"
+  resource_group_name   = module.resource_group.name
+  location              = module.resource_group.location
+  chatbot_container_name = "container-app"
+  chatbot_container_tag_acr = "v2"
+  # chatbot_container_tag_dh = "v1"
+  # docker_hub_password     = "secret"
 }
